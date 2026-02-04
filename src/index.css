@@ -28,6 +28,25 @@
   }
 }
 
+@layer utilities {
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-track {
+    @apply bg-neutral-800 rounded-lg;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    @apply bg-neutral-600 rounded-lg hover:bg-neutral-500;
+  }
+
+  .scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: theme("colors.neutral.600") theme("colors.neutral.800");
+  }
+}
+
 @font-face {
   font-family: "DM Sans";
   src: url("/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf")
