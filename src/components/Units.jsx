@@ -1,18 +1,54 @@
 import { useState } from "react";
-import { UNIT_SYSTEMS } from "../constants/unitsSystems.js";
+import {
+  IMPERIAL_UNITS,
+  METRIC_UNITS,
+  UNIT_SYSTEMS,
+} from "../constants/unitsSystems.js";
+import TemperatureUnits from "./TemperatureUnit.jsx";
+import WindSpeedUnits from "./WindSpeedUnit.jsx";
+import PrecipitationUnit from "./PrecipitationUnit.jsx";
 
 export default function Units() {
   const [showDropDown, setShowDropDown] = useState(false);
-  const [activeUnitSystem, setActiveUnitSystem] = useState(UNIT_SYSTEMS.METRIC);
-  const metricUnitSystemActive = activeUnitSystem === UNIT_SYSTEMS.METRIC;
-  const imperialUnitSystemActive = activeUnitSystem === UNIT_SYSTEMS.IMPERIAL;
+  const [units, setUnits] = useState(METRIC_UNITS);
+  const [lastUnitSystemName, setLastUnitSystemName] = useState(
+    UNIT_SYSTEMS.IMPERIAL
+  );
+
+  function getUnitSwitchButtonText() {
+    return lastUnitSystemName === UNIT_SYSTEMS.METRIC
+      ? "Switch to Imperial"
+      : "Switch to Metric";
+  }
 
   function switchUnitSystem() {
-    if (activeUnitSystem === UNIT_SYSTEMS.IMPERIAL) {
-      setActiveUnitSystem(UNIT_SYSTEMS.METRIC);
-    } else {
-      setActiveUnitSystem(UNIT_SYSTEMS.IMPERIAL);
-    }
+    const targetUnitSystem =
+      lastUnitSystemName === UNIT_SYSTEMS.METRIC
+        ? IMPERIAL_UNITS
+        : METRIC_UNITS;
+    const updatedLastUnitSystemName =
+      lastUnitSystemName === UNIT_SYSTEMS.METRIC
+        ? UNIT_SYSTEMS.IMPERIAL
+        : UNIT_SYSTEMS.METRIC;
+
+    setUnits({
+      TEMPERATURE: targetUnitSystem.TEMPERATURE,
+      WIND_SPEED: targetUnitSystem.WIND_SPEED,
+      PRECIPITATION: targetUnitSystem.PRECIPITATION,
+    });
+    setLastUnitSystemName(updatedLastUnitSystemName);
+  }
+
+  function switchTemperatureUnit(nextTemperatureUnit) {
+    setUnits((prev) => ({ ...prev, TEMPERATURE: nextTemperatureUnit }));
+  }
+
+  function switchWindSpeedUnit(nextWindSpeedUnit) {
+    setUnits((prev) => ({ ...prev, WIND_SPEED: nextWindSpeedUnit }));
+  }
+
+  function switchPrecipitationUnit(nextPrecipitationUnit) {
+    setUnits((prev) => ({ ...prev, PRECIPITATION: nextPrecipitationUnit }));
   }
 
   return (
@@ -37,92 +73,23 @@ export default function Units() {
           onClick={switchUnitSystem}
           className="w-full text-left rounded-md text-base p-2 hover:bg-neutral-600 active:bg-neutral-600  cursor-pointer"
         >
-          Switch to {imperialUnitSystemActive ? "Metric" : "Imperial"}
+          {getUnitSwitchButtonText()}
         </button>
         <div className="space-y-2">
-          <div className="space-y-2">
-            <h2 className="text-sm capitalize pl-1 text-neutral-300">
-              temperature
-            </h2>
-            <p
-              className={`transition-colors duration-200 items-center p-2 rounded-md capitalize text-base flex justify-between ${metricUnitSystemActive ? "bg-neutral-600/50" : ""}`}
-            >
-              <span>celsius (°c)</span>
-              {metricUnitSystemActive && (
-                <span>
-                  <img src="/images/icon-checkmark.svg" alt="" />
-                </span>
-              )}
-            </p>
-
-            <p
-              className={`transition-colors duration-200 items-center p-2 rounded-md capitalize text-base flex justify-between ${imperialUnitSystemActive ? "bg-neutral-600/50" : ""}`}
-            >
-              <span>fahrenheit (°f)</span>
-              {imperialUnitSystemActive && (
-                <span>
-                  <img src="/images/icon-checkmark.svg" alt="" />
-                </span>
-              )}
-            </p>
-          </div>
+          <TemperatureUnits
+            temperatureUnit={units.TEMPERATURE}
+            setTemperatureUnit={switchTemperatureUnit}
+          />
           <hr />
-          <div className="space-y-2">
-            <h2 className="capitalize text-neutral-300 pl-2 text-sm">
-              precipitation
-            </h2>
-            <p
-              htmlFor="km_h"
-              className={`transition-colors duration-200 items-center p-2 rounded-md text-base flex justify-between ${metricUnitSystemActive ? "bg-neutral-600/50" : ""}`}
-            >
-              <span>km/h</span>
-              {metricUnitSystemActive && (
-                <span>
-                  <img src="/images/icon-checkmark.svg" alt="" />
-                </span>
-              )}
-            </p>
-
-            <p
-              className={`transition-colors duration-200 items-center p-2 rounded-md text-base flex justify-between ${imperialUnitSystemActive ? "bg-neutral-600/50" : ""}`}
-            >
-              <span>mph</span>
-              {imperialUnitSystemActive && (
-                <span>
-                  <img src="/images/icon-checkmark.svg" alt="" />
-                </span>
-              )}
-            </p>
-          </div>
+          <WindSpeedUnits
+            windSpeedUnit={units.WIND_SPEED}
+            setWindSpeedUnit={switchWindSpeedUnit}
+          />
           <hr />
-          <div className="space-y-2">
-            <h2 className="capitalize pl-1 text-base text-neutral-300">
-              precipitation
-            </h2>
-            <div className="space-y-2">
-              <p
-                className={`transition-colors duration-200 items-center p-2 rounded-md text-base flex justify-between ${metricUnitSystemActive ? "bg-neutral-600/50" : ""}`}
-              >
-                <span>Millimeters (mm)</span>
-                {metricUnitSystemActive && (
-                  <span>
-                    <img src="/images/icon-checkmark.svg" alt="" />
-                  </span>
-                )}
-              </p>
-
-              <p
-                className={`transition-colors duration-200 items-center p-2 rounded-md text-base flex justify-between ${imperialUnitSystemActive ? "bg-neutral-600/50" : ""}`}
-              >
-                <span>inches (in)</span>
-                {imperialUnitSystemActive && (
-                  <span>
-                    <img src="/images/icon-checkmark.svg" alt="" />
-                  </span>
-                )}
-              </p>
-            </div>
-          </div>
+          <PrecipitationUnit
+            precipitationUnit={units.PRECIPITATION}
+            setPrecipitationUnit={switchPrecipitationUnit}
+          />
         </div>
       </div>
     </div>
