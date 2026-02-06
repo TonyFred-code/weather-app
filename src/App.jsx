@@ -4,7 +4,7 @@ import WeatherOutput from "./components/WeatherOutput.jsx";
 
 export default function App() {
   return (
-    <div className="p-4 mx-auto max-w-5xl flex flex-col gap-8 items-center">
+    <div className="px-2 py-3 xs:p-4 mx-auto max-w-5xl flex flex-col gap-8 items-center">
       <Header />
       <Form />
       <WeatherOutput />
