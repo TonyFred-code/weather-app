@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @theme {
+  /* ---- BREAKPOINT ---- */
+  --breakpoint-xs: 20rem;
   /* ---- COLORS ---- */
   /* NEUTRAL */
   --color-neutral-900: hsl(243, 96%, 9%);
