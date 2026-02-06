@@ -109,12 +109,12 @@ export default function HourlyForecast() {
         <h2 className="text-[15px] font-bold">Hourly forecast</h2>
         <WeekDay />
       </header>
-      <ul className="flex-col gap-3 flex max-h-110 py-2 overflow-auto scrollbar-custom overscroll-contain">
+      <ul className="gap-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 max-h-110 py-2 overflow-auto scrollbar-custom overscroll-contain">
         {hourly_data.map((data, index) => {
           return (
             <li
               key={`data-${index}`}
-              className="flex justify-between items-center h-12 rounded-md bg-neutral-700 py-3 px-2.5 shrink-0"
+              className="flex justify-between items-center h-12 rounded-md bg-neutral-700 text-sm md:text-base py-3 px-2.5 shrink-0"
             >
               <p className="flex items-center">
                 <span className="size-10 flex items-center justify-center">
