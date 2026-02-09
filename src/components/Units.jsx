@@ -7,27 +7,28 @@ import {
 import TemperatureUnits from "./TemperatureUnit.jsx";
 import WindSpeedUnits from "./WindSpeedUnit.jsx";
 import PrecipitationUnit from "./PrecipitationUnit.jsx";
+import { func, shape, string } from "prop-types";
 
 export default function Units() {
   const [showDropDown, setShowDropDown] = useState(false);
   const [units, setUnits] = useState(METRIC_UNITS);
-  const [lastUnitSystemName, setLastUnitSystemName] = useState(
+  const [nextUnitSystemName, setNextUnitSystemName] = useState(
     UNIT_SYSTEMS.IMPERIAL
   );
 
   function getUnitSwitchButtonText() {
-    return lastUnitSystemName === UNIT_SYSTEMS.METRIC
-      ? "Switch to Imperial"
-      : "Switch to Metric";
+    return nextUnitSystemName === UNIT_SYSTEMS.METRIC
+      ? "Switch to Metric"
+      : "Switch to Imperial";
   }
 
   function switchUnitSystem() {
     const targetUnitSystem =
-      lastUnitSystemName === UNIT_SYSTEMS.METRIC
-        ? IMPERIAL_UNITS
-        : METRIC_UNITS;
-    const updatedLastUnitSystemName =
-      lastUnitSystemName === UNIT_SYSTEMS.METRIC
+      nextUnitSystemName === UNIT_SYSTEMS.METRIC
+        ? METRIC_UNITS
+        : IMPERIAL_UNITS;
+    const updatedNextUnitSystemName =
+      nextUnitSystemName === UNIT_SYSTEMS.METRIC
         ? UNIT_SYSTEMS.IMPERIAL
         : UNIT_SYSTEMS.METRIC;
 
@@ -36,7 +37,7 @@ export default function Units() {
       WIND_SPEED: targetUnitSystem.WIND_SPEED,
       PRECIPITATION: targetUnitSystem.PRECIPITATION,
     });
-    setLastUnitSystemName(updatedLastUnitSystemName);
+    setNextUnitSystemName(updatedNextUnitSystemName);
   }
 
   function switchTemperatureUnit(nextTemperatureUnit) {
@@ -95,3 +96,12 @@ export default function Units() {
     </div>
   );
 }
+
+Units.propTypes = {
+  units: shape({
+    TEMPERATURE: string,
+    WIND_SPEED: string,
+    PRECIPITATION: string,
+  }),
+  setUnits: func,
+};
