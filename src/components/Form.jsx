@@ -1,54 +1,15 @@
-import { useState } from "react";
-import { fetchLocationData } from "../helpers/fetchLocationData.js";
 import { LoaderPinwheel } from "lucide-react";
+import { array, bool, func, string } from "prop-types";
 
-export default function Form() {
-  const [query, setQuery] = useState("");
-  const [formLoading, setFormLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
-  const [showDropDown, setShowDropDown] = useState(false);
-
-  function showLocationErr(err) {
-    console.log(err);
-  }
-
-  async function handleSelectCity(cityData) {
-    console.log(cityData);
-    const { name, country } = cityData;
-
-    setQuery(`${name}, ${country}`);
-    setShowDropDown(false);
-  }
-
-  async function handleFormSubmit(event) {
-    event.preventDefault();
-    setFormLoading(true);
-
-    const formData = new FormData(event.target);
-
-    const location = formData.get("search").trim();
-
-    if (!location) {
-      setSearchResults([]);
-      setShowDropDown(false);
-      return;
-    }
-    try {
-      const result = await fetchLocationData(location);
-      setSearchResults(result);
-      setShowDropDown(true);
-    } catch (error) {
-      console.error(error);
-      showLocationErr(error);
-    } finally {
-      setFormLoading(false);
-    }
-  }
-
-  function handleSearchInput(e) {
-    setQuery(e.target.value);
-  }
-
+export default function Form({
+  handleFormSubmit,
+  search,
+  handleSearchInput,
+  handleSelectCity,
+  showDropDown,
+  searchResults,
+  formLoading,
+}) {
   return (
     <section className="flex flex-col items-center justify-center">
       <h2 className="text-center my-8 font-bricolage-grotesque text-[60px]">
@@ -71,7 +32,7 @@ export default function Form() {
               autoComplete="off"
               id="search"
               required
-              value={query}
+              value={search}
               onInput={handleSearchInput}
               placeholder="Search for a place..."
               className="border-none outline-none flex-1 bg-transparent user-invalid:border-b-2 user-invalid:border-neutral-300 autofill:bg-transparent autofill:text-neutral-0 min-w-0"
@@ -116,3 +77,13 @@ export default function Form() {
     </section>
   );
 }
+
+Form.propTypes = {
+  searchResults: array,
+  search: string,
+  handleSearchInput: func,
+  handleFormSubmit: func,
+  handleSelectCity: func,
+  formLoading: bool,
+  showDropDown: bool,
+};
