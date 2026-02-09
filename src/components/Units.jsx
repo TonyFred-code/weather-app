@@ -4,6 +4,7 @@ import {
   METRIC_UNITS,
   UNIT_SYSTEMS,
 } from "../constants/unitsSystems.js";
+import { getAlternateUnitSystemName } from "../helpers/unitSystemIdentifier.js";
 import TemperatureUnits from "./TemperatureUnit.jsx";
 import WindSpeedUnits from "./WindSpeedUnit.jsx";
 import PrecipitationUnit from "./PrecipitationUnit.jsx";
@@ -11,9 +12,7 @@ import { func, shape, string } from "prop-types";
 
 export default function Units({ units, setUnits }) {
   const [showDropDown, setShowDropDown] = useState(false);
-  const [nextUnitSystemName, setNextUnitSystemName] = useState(
-    UNIT_SYSTEMS.IMPERIAL
-  );
+  const nextUnitSystemName = getAlternateUnitSystemName(units);
 
   function getUnitSwitchButtonText() {
     return nextUnitSystemName === UNIT_SYSTEMS.METRIC
@@ -26,17 +25,12 @@ export default function Units({ units, setUnits }) {
       nextUnitSystemName === UNIT_SYSTEMS.METRIC
         ? METRIC_UNITS
         : IMPERIAL_UNITS;
-    const updatedNextUnitSystemName =
-      nextUnitSystemName === UNIT_SYSTEMS.METRIC
-        ? UNIT_SYSTEMS.IMPERIAL
-        : UNIT_SYSTEMS.METRIC;
 
     setUnits({
       TEMPERATURE: targetUnitSystem.TEMPERATURE,
       WIND_SPEED: targetUnitSystem.WIND_SPEED,
       PRECIPITATION: targetUnitSystem.PRECIPITATION,
     });
-    setNextUnitSystemName(updatedNextUnitSystemName);
   }
 
   function switchTemperatureUnit(nextTemperatureUnit) {
