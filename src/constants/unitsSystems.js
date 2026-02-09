@@ -12,7 +12,7 @@ const METRIC_UNITS = {
 const IMPERIAL_UNITS = {
   TEMPERATURE: "fahrenheit",
   WIND_SPEED: "mph",
-  PRECIPITATION: "inches",
+  PRECIPITATION: "inch",
 };
 
 export { UNIT_SYSTEMS, IMPERIAL_UNITS, METRIC_UNITS };
