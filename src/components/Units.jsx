@@ -9,9 +9,8 @@ import WindSpeedUnits from "./WindSpeedUnit.jsx";
 import PrecipitationUnit from "./PrecipitationUnit.jsx";
 import { func, shape, string } from "prop-types";
 
-export default function Units() {
+export default function Units({ units, setUnits }) {
   const [showDropDown, setShowDropDown] = useState(false);
-  const [units, setUnits] = useState(METRIC_UNITS);
   const [nextUnitSystemName, setNextUnitSystemName] = useState(
     UNIT_SYSTEMS.IMPERIAL
   );

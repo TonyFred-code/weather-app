@@ -4,6 +4,7 @@ import Header from "./components/Header.jsx";
 import WeatherOutput from "./components/WeatherOutput.jsx";
 import { fetchWeatherData } from "./helpers/fetchWeatherData.js";
 import { fetchLocationData } from "./helpers/fetchLocationData.js";
+import { METRIC_UNITS } from "./constants/unitsSystems.js";
 
 export default function App() {
   const [query, setQuery] = useState("");
@@ -11,6 +12,7 @@ export default function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [showDropDown, setShowDropDown] = useState(false);
   const [weatherData, setWeatherData] = useState(null);
+  const [units, setUnits] = useState(METRIC_UNITS);
 
   async function handleSelectCity(cityData) {
     const { name, country, latitude, longitude } = cityData;
@@ -18,7 +20,7 @@ export default function App() {
     setQuery(`${name}, ${country}`);
 
     try {
-      const result = await fetchWeatherData(longitude, latitude);
+      const result = await fetchWeatherData(longitude, latitude, units);
       console.log(result);
       setWeatherData(result);
     } catch (error) {
@@ -59,9 +61,13 @@ export default function App() {
     setQuery(e.target.value);
   }
 
+  function updateUnits(nextUnits) {
+    setUnits(nextUnits);
+  }
+
   return (
     <div className="px-2 py-3 xs:p-4 mx-auto max-w-5xl flex flex-col gap-8 items-center">
-      <Header />
+      <Header units={units} setUnits={updateUnits} />
       <Form
         formLoading={formLoading}
         handleFormSubmit={handleFormSubmit}
