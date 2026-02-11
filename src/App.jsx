@@ -17,12 +17,13 @@ export default function App() {
   async function handleSelectCity(cityData) {
     const { name, country, latitude, longitude } = cityData;
     setFormLoading(true);
-    setQuery(`${name}, ${country}`);
+    const cityName = `${name}, ${country}`;
+    setQuery(cityName);
 
     try {
       const result = await fetchWeatherData(longitude, latitude, units);
       console.log(result);
-      setWeatherData(result);
+      setWeatherData({ ...result, cityName });
     } catch (error) {
       console.error(error); // TODO: extend weather error formatting and display
     } finally {
