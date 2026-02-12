@@ -20,8 +20,8 @@ export default function DailyForecast({ data }) {
                 <img src={icon} alt={description} />
               </p>
               <p className="flex justify-between self-stretch text-xs">
-                <span>{maxTemperature}°</span>
-                <span>{minTemperature}°</span>
+                <span>{Math.round(maxTemperature)}°</span>
+                <span>{Math.round(minTemperature)}°</span>
               </p>
             </div>
           );
