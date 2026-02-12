@@ -3,13 +3,15 @@ import { formatHoursAmPm, getDayOfWeek } from "./dateUtilities.js";
 function formatDailyWeatherData(dailyWeatherData) {
   const formattedDailyWeatherData = [];
 
-  const { time, temperature_2m_max, temperature_2m_min } = dailyWeatherData;
+  const { time, temperature_2m_max, temperature_2m_min, weather_code } =
+    dailyWeatherData;
 
   for (const index in time) {
     formattedDailyWeatherData.push({
       date: getDayOfWeek(time[index], "short"),
       maxTemperature: temperature_2m_max[index],
       minTemperature: temperature_2m_min[index],
+      weatherCode: weather_code[index],
     });
   }
 
