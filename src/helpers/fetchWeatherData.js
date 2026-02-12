@@ -7,7 +7,7 @@ async function fetchWeatherData(longitude, latitude, units) {
 
   try {
     const URL =
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min&hourly=weather_code,apparent_temperature&current=precipitation,relative_humidity_2m,wind_speed_10m,temperature_2m,apparent_temperature&timezone=auto${temperatureUnitQuery}${precipitationUnitQuery}${windSpeedUnitQuery}`.trim();
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,weather_code&hourly=weather_code,apparent_temperature&current=precipitation,relative_humidity_2m,wind_speed_10m,temperature_2m,apparent_temperature&timezone=auto${temperatureUnitQuery}${precipitationUnitQuery}${windSpeedUnitQuery}`.trim();
 
     const response = await fetch(URL, { mode: "cors" });
 
