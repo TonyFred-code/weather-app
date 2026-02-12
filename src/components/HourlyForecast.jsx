@@ -1,6 +1,9 @@
 import { object } from "prop-types";
 import WeekDay from "./WeekDay.jsx";
-import { formatHourlyWeatherData } from "../helpers/weatherDataUtilities.js";
+import {
+  formatHourlyWeatherData,
+  getWeatherInfo,
+} from "../helpers/weatherDataUtilities.js";
 import { useState } from "react";
 
 export default function HourlyForecast({ hourlyData }) {
@@ -21,6 +24,8 @@ export default function HourlyForecast({ hourlyData }) {
       </header>
       <ul className="gap-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 max-h-110 py-2 overflow-auto scrollbar-custom overscroll-contain">
         {activeDay.hours.map((hourData, index) => {
+          const { hour, apparentTemperature, weatherCode } = hourData;
+          const { icon, description } = getWeatherInfo(weatherCode);
           return (
             <li
               key={`data-${index}`}
@@ -28,11 +33,11 @@ export default function HourlyForecast({ hourlyData }) {
             >
               <p className="flex items-center">
                 <span className="size-10 flex items-center justify-center">
-                  <img src="/images/icon-fog.webp" alt="" />
+                  <img src={icon} alt={description} />
                 </span>
-                <span>{hourData.hour}</span>
+                <span>{hour}</span>
               </p>
-              <span>{hourData.apparentTemperature}°</span>
+              <span>{apparentTemperature}°</span>
             </li>
           );
         })}
