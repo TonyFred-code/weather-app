@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Form from "./components/Form.jsx";
 import Header from "./components/Header.jsx";
 import WeatherOutput from "./components/WeatherOutput.jsx";
+import Loading from "./components/Loading.jsx";
 import { fetchWeatherData } from "./helpers/fetchWeatherData.js";
 import { fetchLocationData } from "./helpers/fetchLocationData.js";
 import { METRIC_UNITS } from "./constants/unitsSystems.js";
+import { DEFAULT_CITIES } from "./constants/defaultCities.js";
 
 export default function App() {
   const [query, setQuery] = useState("");
@@ -13,6 +15,30 @@ export default function App() {
   const [showDropDown, setShowDropDown] = useState(false);
   const [weatherData, setWeatherData] = useState(null);
   const [units, setUnits] = useState(METRIC_UNITS);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function getDefaultWeather() {
+      const randomCity =
+        DEFAULT_CITIES[Math.floor(Math.random() * DEFAULT_CITIES.length)];
+
+      try {
+        const result = await fetchWeatherData(
+          randomCity.lon,
+          randomCity.lat,
+          METRIC_UNITS
+        );
+
+        setWeatherData({ ...result, cityName: randomCity.cityName });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    getDefaultWeather();
+  }, []);
 
   async function handleSelectCity(cityData) {
     const { name, country, latitude, longitude } = cityData;
@@ -64,6 +90,10 @@ export default function App() {
 
   function updateUnits(nextUnits) {
     setUnits(nextUnits);
+  }
+
+  if (isLoading) {
+    return <Loading loading={isLoading} />;
   }
 
   return (
