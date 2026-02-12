@@ -11,9 +11,8 @@ function getLongDate(timeStamp) {
   });
 }
 
-function formatHoursAmPm(hour) {
-  const date = new Date();
-  date.setHours(hour);
+function formatHoursAmPm(timeStamp) {
+  const date = new Date(timeStamp);
 
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
