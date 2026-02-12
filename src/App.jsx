@@ -16,6 +16,7 @@ export default function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [units, setUnits] = useState(METRIC_UNITS);
   const [isLoading, setIsLoading] = useState(true);
+  const [weatherDataLoading, setWeatherDataLoading] = useState(false);
 
   useEffect(() => {
     async function getDefaultWeather() {
@@ -42,7 +43,7 @@ export default function App() {
 
   async function handleSelectCity(cityData) {
     const { name, country, latitude, longitude } = cityData;
-    setFormLoading(true);
+    setWeatherDataLoading(true);
     const cityName = `${name}, ${country}`;
     setQuery(cityName);
 
@@ -53,7 +54,7 @@ export default function App() {
     } catch (error) {
       console.error(error); // TODO: extend weather error formatting and display
     } finally {
-      setFormLoading(false);
+      setWeatherDataLoading(false);
       setQuery("");
     }
 
@@ -107,6 +108,7 @@ export default function App() {
         searchResults={searchResults}
         showDropDown={showDropDown}
         handleSelectCity={handleSelectCity}
+        weatherDataLoading={weatherDataLoading}
       />
       <WeatherOutput weatherData={weatherData} />
     </div>

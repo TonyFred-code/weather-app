@@ -9,6 +9,7 @@ export default function Form({
   showDropDown,
   searchResults,
   formLoading,
+  weatherDataLoading,
 }) {
   return (
     <section className="flex flex-col items-center justify-center">
@@ -41,23 +42,36 @@ export default function Form({
           <ul
             className={`absolute z-30 bg-neutral-800 rounded-lg top-[calc(100%+7px)] w-full right-0 p-1.5 flex flex-col gap-1.5 transition-transform duration-300 origin-top max-h-80 overflow-y-auto scrollbar-custom ${showDropDown ? "scale-y-100" : "scale-y-0"}`}
           >
-            {searchResults.map((result) => (
-              <li
-                key={result.id}
-                className="px-2 py-1.5 hover:bg-neutral-700 rounded cursor-pointer transition-colors"
-                onClick={() => handleSelectCity(result)}
-              >
-                <div className="flex flex-col">
-                  <span className="font-medium">
-                    {result.name}, {result.country}
-                  </span>
-                  <span className="text-sm text-neutral-400">
-                    {result.admin1 && `${result.admin1}, `}
-                    {result.country}
-                  </span>
-                </div>
+            {weatherDataLoading ? (
+              <li className="px-2 py-1.5 rounded flex gap-3 items-center">
+                <span className="flex items-center justify-center size-4">
+                  <img
+                    src="/images/icon-loading.svg"
+                    alt=""
+                    className="animate-spin h-full w-full"
+                  />
+                </span>
+                <span>Search in progress</span>
               </li>
-            ))}
+            ) : (
+              searchResults.map((result) => (
+                <li
+                  key={result.id}
+                  className="px-2 py-1.5 hover:bg-neutral-700 rounded cursor-pointer transition-colors"
+                  onClick={() => handleSelectCity(result)}
+                >
+                  <div className="flex flex-col">
+                    <span className="font-medium">
+                      {result.name}, {result.country}
+                    </span>
+                    <span className="text-sm text-neutral-400">
+                      {result.admin1 && `${result.admin1}, `}
+                      {result.country}
+                    </span>
+                  </div>
+                </li>
+              ))
+            )}
           </ul>
         </div>
         <button
@@ -86,4 +100,5 @@ Form.propTypes = {
   handleSelectCity: func,
   formLoading: bool,
   showDropDown: bool,
+  weatherDataLoading: bool,
 };
