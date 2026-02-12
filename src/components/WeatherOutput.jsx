@@ -11,7 +11,7 @@ export default function WeatherOutput({ weatherData }) {
         units={weatherData?.current_units}
         cityName={weatherData?.cityName}
       />
-      <DailyForecast />
+      <DailyForecast data={weatherData?.daily} />
       <HourlyForecast />
     </section>
   );
