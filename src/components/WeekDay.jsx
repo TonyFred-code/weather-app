@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { WEEK_DAYS } from "../constants/weekDays.js";
+import { array, func, number } from "prop-types";
 
-export default function WeekDay() {
-  const [activeDayOfWeek, setActiveDayOfWeek] = useState(WEEK_DAYS.MONDAY);
+export default function WeekDay({
+  activeDayIndex,
+  weekDays,
+  setActiveDayIndex,
+}) {
   const [showDaysOfWeekDropDown, setShowDaysOfWeekDropDown] = useState(false);
 
-  function updateActiveDayOfWeek(value) {
-    setActiveDayOfWeek(value);
+  function updateActiveDayOfWeek(dayIndex) {
+    setActiveDayIndex(dayIndex);
     setShowDaysOfWeekDropDown(false);
   }
 
@@ -17,7 +20,7 @@ export default function WeekDay() {
         className="capitalize flex items-center gap-2 py-1.5 px-2.5 bg-neutral-700 rounded-md cursor-pointer text-sm"
         onClick={() => setShowDaysOfWeekDropDown(!showDaysOfWeekDropDown)}
       >
-        <span>{activeDayOfWeek}</span>
+        <span>{weekDays[activeDayIndex]}</span>
         <span>
           <img src="/images/icon-dropdown.svg" alt="" />
         </span>
@@ -25,12 +28,12 @@ export default function WeekDay() {
       <ul
         className={`${showDaysOfWeekDropDown ? "scale-y-100" : "scale-y-0"} absolute z-30 bg-neutral-800 rounded-lg top-[calc(100%+7px)] w-[200%] right-0 p-1.5 flex flex-col gap-1.5 transition-transform duration-300 origin-top`}
       >
-        {Object.values(WEEK_DAYS).map((weekDay) => {
+        {weekDays.map((weekDay, index) => {
           return (
             <li
-              onClick={() => updateActiveDayOfWeek(weekDay)}
+              onClick={() => updateActiveDayOfWeek(index)}
               key={`data-${weekDay}`}
-              className={`${activeDayOfWeek === weekDay ? "bg-neutral-700" : ""} capitalize p-1.5 cursor-pointer rounded-md text-xs hover:bg-neutral-700/90`}
+              className={`${activeDayIndex === index ? "bg-neutral-700" : ""} capitalize p-1.5 cursor-pointer rounded-md text-xs hover:bg-neutral-700/90`}
             >
               {weekDay}
             </li>
@@ -40,3 +43,9 @@ export default function WeekDay() {
     </div>
   );
 }
+
+WeekDay.propTypes = {
+  activeDayIndex: number,
+  setActiveDayIndex: func,
+  weekDays: array,
+};
