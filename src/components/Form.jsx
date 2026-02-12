@@ -36,6 +36,7 @@ export default function Form({
               value={search}
               onInput={handleSearchInput}
               placeholder="Search for a place..."
+              disabled={weatherDataLoading}
               className="border-none outline-none flex-1 bg-transparent user-invalid:border-b-2 user-invalid:border-neutral-300 autofill:bg-transparent autofill:text-neutral-0 min-w-0"
             />
           </div>
@@ -75,8 +76,9 @@ export default function Form({
           </ul>
         </div>
         <button
+          disabled={weatherDataLoading || formLoading}
           type="submit"
-          className="capitalize text-center text-neutral-0 bg-blue-500 py-3 px-5 md:py-2.5 md:px-6 rounded-xl font-bold cursor-pointer flex items-center gap-2 hover:bg-blue-700"
+          className="capitalize text-center text-neutral-0 bg-blue-500 py-3 px-5 md:py-2.5 md:px-6 rounded-xl font-bold cursor-pointer flex items-center gap-2 hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {formLoading ? (
             <>
