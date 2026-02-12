@@ -12,7 +12,7 @@ export default function WeatherOutput({ weatherData }) {
         cityName={weatherData?.cityName}
       />
       <DailyForecast data={weatherData?.daily} />
-      <HourlyForecast />
+      <HourlyForecast hourlyData={weatherData?.hourly} />
     </section>
   );
 }
