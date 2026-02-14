@@ -16,5 +16,8 @@ function getAlternateUnitSystemName(unitsSystem) {
   // If majority is metric, next unit system name should be imperial
   if (metricCount >= 2) return UNIT_SYSTEMS.IMPERIAL;
   if (imperialCount >= 2) return UNIT_SYSTEMS.METRIC;
+
+  // redundant safe check (no test)
+  return UNIT_SYSTEMS.METRIC;
 }
 export { getAlternateUnitSystemName };
