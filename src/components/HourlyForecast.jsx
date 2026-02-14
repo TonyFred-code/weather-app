@@ -1,12 +1,11 @@
-import { object } from "prop-types";
+import { bool, object } from "prop-types";
 import WeekDay from "./WeekDay.jsx";
-import {
-  formatHourlyWeatherData,
-  getWeatherInfo,
-} from "../helpers/weatherDataUtilities.js";
+import { formatHourlyWeatherData } from "../helpers/weatherDataUtilities.js";
 import { useState } from "react";
+import LiveHourlyData from "./LiveHourlyData.jsx";
+import LoadingHourlyData from "./LoadingHourlyData.jsx";
 
-export default function HourlyForecast({ hourlyData }) {
+export default function HourlyForecast({ hourlyData, isLoading }) {
   const { hourly_data, week_days } = formatHourlyWeatherData(hourlyData);
   const [activeDayIndex, setActiveDayIndex] = useState(0);
 
@@ -20,32 +19,19 @@ export default function HourlyForecast({ hourlyData }) {
           weekDays={week_days}
           activeDayIndex={activeDayIndex}
           setActiveDayIndex={setActiveDayIndex}
+          isLoading={isLoading}
         />
       </header>
-      <ul className="gap-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 max-h-110 py-2 overflow-auto scrollbar-custom overscroll-contain">
-        {activeDay.hours.map((hourData, index) => {
-          const { hour, apparentTemperature, weatherCode } = hourData;
-          const { icon, description } = getWeatherInfo(weatherCode);
-          return (
-            <li
-              key={`data-${index}`}
-              className="flex justify-between items-center h-12 rounded-md bg-neutral-700 text-sm md:text-base py-3 px-2.5 shrink-0"
-            >
-              <p className="flex items-center">
-                <span className="size-10 flex items-center justify-center">
-                  <img src={icon} alt={description} />
-                </span>
-                <span>{hour}</span>
-              </p>
-              <span>{apparentTemperature}°</span>
-            </li>
-          );
-        })}
-      </ul>
+      {isLoading ? (
+        <LoadingHourlyData />
+      ) : (
+        <LiveHourlyData data={activeDay} />
+      )}{" "}
     </section>
   );
 }
 
 HourlyForecast.propTypes = {
   hourlyData: object.isRequired,
+  isLoading: bool,
 };

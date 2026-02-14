@@ -110,7 +110,10 @@ export default function App() {
         handleSelectCity={handleSelectCity}
         weatherDataLoading={weatherDataLoading}
       />
-      <WeatherOutput weatherData={weatherData} />
+      <WeatherOutput
+        weatherData={weatherData}
+        weatherDataLoading={weatherDataLoading}
+      />
     </div>
   );
 }
