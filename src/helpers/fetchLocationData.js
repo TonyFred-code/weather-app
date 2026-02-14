@@ -1,6 +1,6 @@
 async function fetchLocationData(location) {
   try {
-    const URL = `https://geocoding-api.open-meteo.com/v1/search?name=${location}&count=4&language=en&format=json`;
+    const URL = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(location.trim())}&count=4&language=en&format=json`;
 
     const response = await fetch(URL, { mode: "cors" });
     const data = await response.json();
