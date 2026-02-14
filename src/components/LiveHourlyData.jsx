@@ -1,10 +1,10 @@
-import { object } from "prop-types";
+import { array } from "prop-types";
 import { getWeatherInfo } from "../helpers/weatherDataUtilities.js";
 
 export default function LiveHourlyData({ data }) {
   return (
     <ul className="gap-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 max-h-110 py-2 overflow-auto scrollbar-custom overscroll-contain">
-      {data.hours.map((hourData, index) => {
+      {data.map((hourData, index) => {
         const { hour, apparentTemperature, weatherCode } = hourData;
         const { icon, description } = getWeatherInfo(weatherCode);
         return (
@@ -27,5 +27,5 @@ export default function LiveHourlyData({ data }) {
 }
 
 LiveHourlyData.propTypes = {
-  data: object,
+  data: array,
 };

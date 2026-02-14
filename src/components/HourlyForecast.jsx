@@ -6,7 +6,9 @@ import LiveHourlyData from "./LiveHourlyData.jsx";
 import LoadingHourlyData from "./LoadingHourlyData.jsx";
 
 export default function HourlyForecast({ hourlyData, isLoading }) {
-  const { hourly_data, week_days } = formatHourlyWeatherData(hourlyData);
+  const { hourly_data, week_days } = isLoading
+    ? { hourly_data: [], week_days: [] }
+    : formatHourlyWeatherData(hourlyData);
   const [activeDayIndex, setActiveDayIndex] = useState(0);
 
   const activeDay = hourly_data[activeDayIndex];
@@ -25,7 +27,7 @@ export default function HourlyForecast({ hourlyData, isLoading }) {
       {isLoading ? (
         <LoadingHourlyData />
       ) : (
-        <LiveHourlyData data={activeDay} />
+        <LiveHourlyData data={activeDay.hours} />
       )}{" "}
     </section>
   );
