@@ -42,12 +42,14 @@ export default function WeekDay({
         >
           {weekDays.map((weekDay, index) => {
             return (
-              <li
-                onClick={() => updateActiveDayOfWeek(index)}
-                key={`data-${weekDay}`}
-                className={`${activeDayIndex === index ? "bg-neutral-700" : ""} capitalize p-1.5 cursor-pointer rounded-md text-xs hover:bg-neutral-700/90`}
-              >
-                {weekDay}
+              <li key={`data-${weekDay}`}>
+                <button
+                  onClick={() => updateActiveDayOfWeek(index)}
+                  type="button"
+                  className={`${activeDayIndex === index ? "bg-neutral-700" : ""} capitalize p-1.5 cursor-pointer rounded-md text-xs hover:bg-neutral-700/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800 w-full text-left`}
+                >
+                  {weekDay}
+                </button>
               </li>
             );
           })}
