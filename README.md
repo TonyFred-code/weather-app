@@ -39,7 +39,7 @@ Solution Built:
 ### Links
 
 - Solution URL: [GitHub Source Code](https://github.com/TonyFred-code/weather-app/)
-- Live Site URL: [Vercel Deployed Demo](https://example.com/)
+- Live Site URL: [Vercel Deployed Demo](https://weather-app-two-lake-88.vercel.app/)
 
 ## Built with
 

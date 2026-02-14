@@ -48,6 +48,8 @@ export default function Units({ units, setUnits }) {
   return (
     <div className="relative">
       <button
+        id="menu-button"
+        aria-expanded={showDropDown}
         onClick={() => setShowDropDown(!showDropDown)}
         className="flex gap-1.5 rounded-lg border border-neutral-800 bg-neutral-800 text-neutral-0 text-base font-medium items-center w-full focus:outline-none cursor-pointer p-1.5 md:p-2.5"
       >
@@ -60,8 +62,7 @@ export default function Units({ units, setUnits }) {
         </span>
       </button>
       <div
-        className={`p-3 space-y-4 absolute z-40 bg-neutral-800 rounded-lg top-[calc(100%+7px)] w-[200%] right-0 transition-transform duration-300 origin-top ${showDropDown ? "scale-y-100" : "scale-y-0"}`}
-        aria-labelledby="dropdownRadioButton"
+        className={`p-3 space-y-4 absolute z-40 bg-neutral-800 rounded-lg top-[calc(100%+7px)] w-[200%] right-0 transition-transform duration-300 origin-top ${showDropDown ? "scale-y-100 pointer-events-auto" : "scale-y-0 pointer-events-none"}`}
       >
         <button
           onClick={switchUnitSystem}

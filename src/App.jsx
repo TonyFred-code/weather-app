@@ -19,6 +19,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [weatherDataLoading, setWeatherDataLoading] = useState(false);
   const [weatherError, setWeatherError] = useState(null);
+  const [refetchCount, setRefetchCount] = useState(0);
 
   useEffect(() => {
     async function getDefaultWeather() {
@@ -41,7 +42,7 @@ export default function App() {
     }
 
     getDefaultWeather();
-  }, []);
+  }, [refetchCount]);
 
   async function handleSelectCity(cityData) {
     const { name, country, latitude, longitude } = cityData;
@@ -51,7 +52,6 @@ export default function App() {
 
     try {
       const result = await fetchWeatherData(longitude, latitude, units);
-      console.log(result);
       setWeatherData({ ...result, cityName });
     } catch (error) {
       setWeatherError(error);
@@ -98,6 +98,8 @@ export default function App() {
 
   function resetError() {
     setWeatherError(null);
+    setIsLoading(true);
+    setRefetchCount((prev) => prev + 1);
   }
 
   if (isLoading) {

@@ -38,16 +38,18 @@ export default function WeekDay({
       </button>
       {!isLoading && (
         <ul
-          className={`${showDaysOfWeekDropDown ? "scale-y-100" : "scale-y-0"} absolute z-30 bg-neutral-800 rounded-lg top-[calc(100%+7px)] w-[200%] right-0 p-1.5 flex flex-col gap-1.5 transition-transform duration-300 origin-top`}
+          className={`${showDaysOfWeekDropDown ? "scale-y-100 pointer-events-auto" : "scale-y-0 pointer-events-none"} absolute z-30 bg-neutral-800 rounded-lg top-[calc(100%+7px)] w-[200%] right-0 p-1.5 flex flex-col gap-1.5 transition-transform duration-300 origin-top`}
         >
           {weekDays.map((weekDay, index) => {
             return (
-              <li
-                onClick={() => updateActiveDayOfWeek(index)}
-                key={`data-${weekDay}`}
-                className={`${activeDayIndex === index ? "bg-neutral-700" : ""} capitalize p-1.5 cursor-pointer rounded-md text-xs hover:bg-neutral-700/90`}
-              >
-                {weekDay}
+              <li key={`data-${weekDay}`}>
+                <button
+                  onClick={() => updateActiveDayOfWeek(index)}
+                  type="button"
+                  className={`${activeDayIndex === index ? "bg-neutral-700" : ""} capitalize p-1.5 cursor-pointer rounded-md text-xs hover:bg-neutral-700/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-800 w-full text-left`}
+                >
+                  {weekDay}
+                </button>
               </li>
             );
           })}
