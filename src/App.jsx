@@ -7,6 +7,7 @@ import { fetchWeatherData } from "./helpers/fetchWeatherData.js";
 import { fetchLocationData } from "./helpers/fetchLocationData.js";
 import { METRIC_UNITS } from "./constants/unitsSystems.js";
 import { DEFAULT_CITIES } from "./constants/defaultCities.js";
+import WeatherError from "./components/errors/WeatherError.jsx";
 
 export default function App() {
   const [query, setQuery] = useState("");
@@ -17,6 +18,7 @@ export default function App() {
   const [units, setUnits] = useState(METRIC_UNITS);
   const [isLoading, setIsLoading] = useState(true);
   const [weatherDataLoading, setWeatherDataLoading] = useState(false);
+  const [weatherError, setWeatherError] = useState(null);
 
   useEffect(() => {
     async function getDefaultWeather() {
@@ -32,7 +34,7 @@ export default function App() {
 
         setWeatherData({ ...result, cityName: randomCity.cityName });
       } catch (error) {
-        console.error(error);
+        setWeatherError(error);
       } finally {
         setIsLoading(false);
       }
@@ -52,13 +54,12 @@ export default function App() {
       console.log(result);
       setWeatherData({ ...result, cityName });
     } catch (error) {
-      console.error(error); // TODO: extend weather error formatting and display
+      setWeatherError(error);
     } finally {
       setWeatherDataLoading(false);
       setQuery("");
+      setShowDropDown(false);
     }
-
-    setShowDropDown(false);
   }
 
   async function handleFormSubmit(event) {
@@ -71,15 +72,17 @@ export default function App() {
 
     if (!location) {
       setSearchResults([]);
+      setWeatherError("Error");
       setShowDropDown(false);
       return;
     }
+
     try {
       const result = await fetchLocationData(location);
       setSearchResults(result);
       setShowDropDown(true);
     } catch (error) {
-      console.error(error); // TODO: Extend location data error display
+      setWeatherError(error);
     } finally {
       setFormLoading(false);
     }
@@ -93,6 +96,10 @@ export default function App() {
     setUnits(nextUnits);
   }
 
+  function resetError() {
+    setWeatherError(null);
+  }
+
   if (isLoading) {
     return <Loading loading={isLoading} />;
   }
@@ -100,20 +107,26 @@ export default function App() {
   return (
     <div className="px-2 py-3 xs:p-4 mx-auto max-w-5xl flex flex-col gap-8 items-center">
       <Header units={units} setUnits={updateUnits} />
-      <Form
-        formLoading={formLoading}
-        handleFormSubmit={handleFormSubmit}
-        handleSearchInput={handleSearchInput}
-        search={query}
-        searchResults={searchResults}
-        showDropDown={showDropDown}
-        handleSelectCity={handleSelectCity}
-        weatherDataLoading={weatherDataLoading}
-      />
-      <WeatherOutput
-        weatherData={weatherData}
-        weatherDataLoading={weatherDataLoading}
-      />
+      {weatherError ? (
+        <WeatherError resetError={resetError} />
+      ) : (
+        <>
+          <Form
+            formLoading={formLoading}
+            handleFormSubmit={handleFormSubmit}
+            handleSearchInput={handleSearchInput}
+            search={query}
+            searchResults={searchResults}
+            showDropDown={showDropDown}
+            handleSelectCity={handleSelectCity}
+            weatherDataLoading={weatherDataLoading}
+          />
+          <WeatherOutput
+            weatherData={weatherData}
+            weatherDataLoading={weatherDataLoading}
+          />
+        </>
+      )}
     </div>
   );
 }
