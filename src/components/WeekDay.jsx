@@ -38,7 +38,7 @@ export default function WeekDay({
       </button>
       {!isLoading && (
         <ul
-          className={`${showDaysOfWeekDropDown ? "scale-y-100" : "scale-y-0"} absolute z-30 bg-neutral-800 rounded-lg top-[calc(100%+7px)] w-[200%] right-0 p-1.5 flex flex-col gap-1.5 transition-transform duration-300 origin-top`}
+          className={`${showDaysOfWeekDropDown ? "scale-y-100 pointer-events-auto" : "scale-y-0 pointer-events-none"} absolute z-30 bg-neutral-800 rounded-lg top-[calc(100%+7px)] w-[200%] right-0 p-1.5 flex flex-col gap-1.5 transition-transform duration-300 origin-top`}
         >
           {weekDays.map((weekDay, index) => {
             return (
