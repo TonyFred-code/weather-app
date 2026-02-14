@@ -10,9 +10,7 @@ export default function WindSpeedUnits({ windSpeedUnit, setWindSpeedUnit }) {
   }
   return (
     <div className="space-y-2">
-      <h2 className="capitalize text-neutral-300 pl-2 text-sm">
-        precipitation
-      </h2>
+      <h2 className="capitalize text-neutral-300 pl-2 text-sm">wind speed</h2>
       <button
         type="button"
         className={`transition-colors duration-200 items-center p-2 rounded-md hover:bg-neutral-600 w-full cursor-pointer text-base flex justify-between ${metricUnitSystemActive ? "bg-neutral-600/50" : ""}`}
