@@ -10,12 +10,16 @@ async function fetchWeatherData(longitude, latitude, units) {
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,weather_code&hourly=weather_code,apparent_temperature&current=precipitation,relative_humidity_2m,wind_speed_10m,temperature_2m,apparent_temperature&timezone=auto${temperatureUnitQuery}${precipitationUnitQuery}${windSpeedUnitQuery}`.trim();
 
     const response = await fetch(URL, { mode: "cors" });
+    const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch weather data");
+    // API specific errors
+    if (data.error) {
+      throw new Error(data.reason || "Unknown API error");
     }
 
-    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
+    }
 
     if (!data) {
       throw new Error("Failed to retrieve weather data");
@@ -24,6 +28,7 @@ async function fetchWeatherData(longitude, latitude, units) {
     return data;
   } catch (error) {
     console.error("Weather data fetching failed with error: ", error);
+    throw error;
   }
 }
 
