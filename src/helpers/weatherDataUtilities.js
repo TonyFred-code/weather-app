@@ -6,14 +6,14 @@ function formatDailyWeatherData(dailyWeatherData) {
   const { time, temperature_2m_max, temperature_2m_min, weather_code } =
     dailyWeatherData;
 
-  for (const index in time) {
+  time.forEach((timeStamp, index) => {
     formattedDailyWeatherData.push({
-      date: getDayOfWeek(time[index], "short"),
+      date: getDayOfWeek(timeStamp, "short"),
       maxTemperature: temperature_2m_max[index],
       minTemperature: temperature_2m_min[index],
       weatherCode: weather_code[index],
     });
-  }
+  });
 
   return formattedDailyWeatherData;
 }
