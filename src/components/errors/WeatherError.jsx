@@ -34,5 +34,5 @@ export default function WeatherError({ resetError }) {
 }
 
 WeatherError.propTypes = {
-  resetError: func,
+  resetError: func.isRequired,
 };
