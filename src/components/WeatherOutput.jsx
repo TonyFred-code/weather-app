@@ -1,4 +1,4 @@
-import { bool, object, shape } from "prop-types";
+import { bool, object, shape, string } from "prop-types";
 import DailyForecast from "./DailyForecast.jsx";
 import HourlyForecast from "./HourlyForecast.jsx";
 import WeatherSummary from "./WeatherSummary.jsx";
@@ -25,6 +25,9 @@ WeatherOutput.propTypes = {
   weatherData: shape({
     current: object,
     current_units: object,
+    daily: object,
+    hourly: object,
+    cityName: string,
   }),
   weatherDataLoading: bool,
 };
