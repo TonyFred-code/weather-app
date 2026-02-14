@@ -52,7 +52,6 @@ export default function App() {
 
     try {
       const result = await fetchWeatherData(longitude, latitude, units);
-      console.log(result);
       setWeatherData({ ...result, cityName });
     } catch (error) {
       setWeatherError(error);
